@@ -1,0 +1,51 @@
+int minDistance(int[] dist, int[] sptSet) {
+    var min = 999;
+    var min_index = -1;
+
+    for (var v = 0; v < 5; v=v+1;) {
+        if (sptSet[v] == 0 & dist[v] <= min) {
+            min = dist[v];
+            min_index = v;
+        }
+    }
+    return min_index;
+}
+
+void dijkstra(int[][] graph, int src) {
+    var dist = new int[]{999,999,999,999,999};
+    var sptSet = new int[]{0,0,0,0,0};
+
+    dist[src] = 0;
+
+    for (var count = 0; count < 4; count=count+1;) {
+        var u = minDistance(dist, sptSet);
+
+        sptSet[u] = 1;
+
+        for (var v = 0; v < 5; v=v+1;) {
+            if (sptSet[v]==0 & graph[u][v]!=0 & dist[u] != 999 
+                & dist[u] + graph[u][v] < dist[v]) {
+                dist[v] = dist[u] + graph[u][v];
+            }
+        }
+    }
+    for(var i=0; i<5; i=i+1;){
+        print_int(dist[i]);
+    }
+    return;
+}
+
+int program(int argc, string[] argv) {
+    /* Adjacent matrix */
+    var graph = new int[][]{
+        new int[]{0, 10, 0, 0, 5},
+        new int[]{0, 0, 1, 0, 2},
+        new int[]{0, 0, 0, 4, 0},
+        new int[]{7, 0, 6, 0, 0},
+        new int[]{0, 3, 9, 2, 0}
+    };
+    var source = 0;
+    dijkstra(graph, source);
+
+    return 0;
+}

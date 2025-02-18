@@ -1,0 +1,73 @@
+struct Edge {
+  int src;
+  int dst;
+  int weight
+}
+
+struct Graph {
+  int vertexNum;
+  int edgeNum;
+  Edge[] edges
+}
+
+int minDistance(int[] mdist, int[] vset, int v) {
+  var inf = 2147483647;
+  var minVal = inf;
+  var minInd = -1;
+  for (var i = 0; i < v; i = i + 1;) {
+    if (vset[i] == 0 & mdist[i] < minVal) {
+      minVal = mdist[i];
+      minInd = i;
+    }
+  }
+  return minInd;
+}
+
+void bellmanFord(Graph g, int src) {
+  var inf = 2147483647;
+  var vn = g.vertexNum;
+  var en = g.edgeNum;
+  var dist = new int[vn];
+  
+  for (var i = 0; i < vn; i = i + 1;) {
+    dist[i] = inf;
+  }
+  dist[src] = 0;
+  
+  for (var i = 0; i <= vn - 1; i = i + 1;) {
+    for (var j = 0; j < en; j = j + 1;) {
+      var u = g.edges[j].src;
+      var v = g.edges[j].dst;
+      var w = g.edges[j].weight;
+      
+      if (dist[u] != inf & dist[u] + w < dist[v]) {
+        dist[v] = dist[u] + w;
+      }
+    }
+  }
+  
+  for (var j = 0; j < en; j = j + 1;) {
+    var u = g.edges[j].src;
+    var v = g.edges[j].dst;
+    var w = g.edges[j].weight;
+    
+    if (dist[u] != inf & dist[u] + w < dist[v]) {
+      print_string("Graph contains negative weight cycle.");
+      return;
+    }
+  }
+  return;
+}
+
+int program(int argc, string[] argv) {
+  var e0 = new Edge {src = 0; dst = 1; weight = -10};
+  var e1 = new Edge {src = 1; dst = 2; weight = -5};
+  var e2 = new Edge {src = 2; dst = 0; weight = 10};
+  var es = new Edge[]{e0,e1,e2};
+  var g = new Graph {vertexNum = 3; edgeNum = 3; edges = es};
+
+  var gsrc = 0;
+  bellmanFord(g, gsrc);
+  
+  return 0;
+}

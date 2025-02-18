@@ -1,0 +1,10 @@
+.vscode
+_build
+bin/main.exe
+bin/printanalysis.exe
+oatc
+printanalysis
+ocamlbin
+*~
+output
+.out
